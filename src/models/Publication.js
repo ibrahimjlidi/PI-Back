@@ -14,7 +14,7 @@ const candidatureSchema = new mongoose.Schema({
 const publicationSchema = new mongoose.Schema({
   titre: { type: String, required: true, trim: true },
   description: { type: String, required: true },
-  client: { type: mongoose.Schema.Types.ObjectId, ref: 'Utilisateur', required: true },
+  client: { type: mongoose.Schema.Types.ObjectId, ref: 'Utilisateur', required: false },
   categorie: { type: mongoose.Schema.Types.ObjectId, ref: 'Categorie' },
   specialiteRequise: { type: String },
   budget: { type: Number, required: true },

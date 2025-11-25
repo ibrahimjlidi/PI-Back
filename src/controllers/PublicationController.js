@@ -102,12 +102,14 @@ exports.createPublication = async (req, res) => {
   try {
     const publication = new Publication(req.body);
     await publication.save();
+
     return res.status(201).json(publication);
   } catch (error) {
     console.error('Error in createPublication:', error);
     return res.status(400).json({ error: error.message });
   }
 };
+
 
 // Update publication by ID
 exports.updatePublication = async (req, res) => {
