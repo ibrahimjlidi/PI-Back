@@ -37,12 +37,15 @@ app.get('/database-viewer', (req, res) => {
 });
 
 //configuration des routes
-const userRoutes = require('./src/routes/UtilisateurRoutes.js');
-app.use('/api', userRoutes);
+const utilisateurRoutes = require('./src/routes/utilisateurRoutes');
+app.use('/api/utilisateurs', utilisateurRoutes);
 
-const CategorieRoutes = require('./src/routes/CategorieRoutes.js');
-app.use('/api', CategorieRoutes);
 
+const categorieRoutes = require('./src/routes/categorieRoutes');
+app.use('/api/categories', categorieRoutes);
+
+const specialiteRoutes = require('./src/routes/specialiteRoutes');
+app.use('/api/specialites', specialiteRoutes);
 const FormationRoutes = require('./src/routes/FormationRoutes.js');
 app.use('/api', FormationRoutes);
 
@@ -58,7 +61,7 @@ app.use('/api', InscritSessionRoutes);
 const StatisticsRoutes = require('./src/routes/StatisticsRoutes.js');
 app.use('/api', StatisticsRoutes);
 
-const PublicationRoutes = require('./src/routes/PublicationRoutes.js');
+const PublicationRoutes = require('./src/routes/publicationRoutes.js');
 app.use('/api', PublicationRoutes);
 
 const ContratRoutes = require('./src/routes/ContratRoutes.js');

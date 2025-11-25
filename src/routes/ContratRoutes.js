@@ -1,38 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const {
-  createContrat,
-  getContratById,
-  getClientContrats,
-  getFreelanceContrats,
-  signContrat,
-  updateContratStatus,
-  updateMilestone,
-  addNote
-} = require('../controllers/ContratController');
+const contratController = require('../controllers/contratController');
 
-// Create a new contract
-router.post('/', createContrat);
+// CRUD routes
+router.post('/', contratController.createContrat); // Create
+router.get('/', contratController.getAllContrats); // Get all
+router.get('/:id', contratController.getContratById); // Get one
+router.put('/:id', contratController.updateContrat); // Update
+router.delete('/:id', contratController.deleteContrat); // Delete
 
-// Get contract by ID
-router.get('/:id', getContratById);
-
-// Get all contracts for a client
-router.get('/client/:clientId', getClientContrats);
-
-// Get all contracts for a freelancer
-router.get('/freelance/:freelanceId', getFreelanceContrats);
-
-// Sign a contract
-router.put('/:id/sign', signContrat);
-
-// Update contract status
-router.put('/:id/status', updateContratStatus);
-
-// Update milestone status
-router.put('/:id/milestones/:milestoneId', updateMilestone);
-
-// Add note to contract
-router.post('/:id/notes', addNote);
+// Milestone routes
+router.post('/:id/milestones', contratController.addMilestone); // Add milestone
+router.put('/:id/milestones/:milestoneId', contratController.updateMilestoneStatus); // Update milestone status
 
 module.exports = router;

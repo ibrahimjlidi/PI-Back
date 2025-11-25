@@ -1,26 +1,12 @@
 const express = require('express');
-const multer = require('multer');
-const storage = multer.memoryStorage();
-const categorieController = require('../controllers/CategorieController'); 
-
 const router = express.Router();
+const categorieController = require('../controllers/categorieController');
 
-// Add Category
-router.post('/create', categorieController.addCategory);
+// CRUD endpoints
+router.post('/', categorieController.createCategorie);
+router.get('/', categorieController.getAllCategories);
+router.get('/:id', categorieController.getCategorieById);
+router.put('/:id', categorieController.updateCategorie);
+router.delete('/:id', categorieController.deleteCategorie);
 
-// Get Categories
-router.get('/categories', categorieController.getAllCategory);
-
-// Get Category by ID
-router.get('/categories/:id', categorieController.getCategoryById);
-
-// // Get Category by Name
-// router.get('/getCategoryByName/:nom', categorieController.getCategoryByName);
-
-// Update Category by ID
-router.put('/categories/update/:id', categorieController.updateCategory);
-
-// Delete Category by ID
-router.delete('/categories/delete/:id', categorieController.deleteCategory);
-
-module.exports = router;
+module.exports = router; // ✅ Must export the router, NOT an object

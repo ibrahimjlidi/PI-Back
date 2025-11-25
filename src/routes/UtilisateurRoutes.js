@@ -1,41 +1,30 @@
 const express = require('express');
-const multer = require('multer');
-const utilisateurController = require('../controllers/UtilisateurController');
-
 const router = express.Router();
+const utilisateurController = require('../controllers/utilisateurController');
+const { authMiddleware, isAdmin } = require('../middlewares/authMiddleware');
 
-// Register a new user
-router.post('/register', utilisateurController.registerUser);
+// PUBLIC ROUTES
+router.post('/register', utilisateurController.register);
+router.post('/login', utilisateurController.login);
 
-// Login User
-router.post('/login', utilisateurController.loginUser);
+// PROTECTED ROUTES
+router.get('/utilisateurs', utilisateurController.getAllUtilisateurs);
 
+router.get('/:id', authMiddleware, async (req, res, next) => {
+  if (req.user.role === 'admin' || req.user.id === req.params.id) {
+    return utilisateurController.getUtilisateurById(req, res, next);
+  }
+  return res.status(403).json({ message: 'Access denied' });
+});
 
-// forget-password
-router.post('/forget-password', utilisateurController.forgotPassword);
+router.put('/update/:id', async (req, res, next) => {
+  
+    return utilisateurController.updateUtilisateur(req, res, next);
+  
+});
 
-// reset-password with token 
-router.put('/reset-password/:token', utilisateurController.resetPassword);
-
-// Get a list of all users
-router.get('/users', utilisateurController.getAllUsers);
-router.get('/specialites', utilisateurController.getAllSpecialities);
-// get formateur
-router.get('/users/formateurs', utilisateurController.getAllFormateurs);
-
-// get candidat
-router.get('/users/candidats', utilisateurController.getAllCandidats);
-router.get('/users/candidatsTotal', utilisateurController.getCandidatsCount);
-router.get('/users/formateursTotal', utilisateurController.getFormateursCount);
-// get user by Email
-router.get('/users/:email', utilisateurController.getUserByEmail);
-
-// Get user by ID
-router.get('/users/:id', utilisateurController.getUserById1);
-
-// Update user by ID 
-router.put('/users/update/:id', utilisateurController.updateUser);
-
-router.delete('/users/delete/:id', utilisateurController.deleteUser);
+router.delete('/:id', authMiddleware, isAdmin, utilisateurController.deleteUtilisateur);
+// Get all formateurs
+router.get('/formateurs', utilisateurController.getFormateurs);
 
 module.exports = router;
